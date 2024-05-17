@@ -1,0 +1,88 @@
+---
+import Header from "../components/Header.astro";
+import States from "../components/States.astro";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content="{Astro.generator}" />
+    <title>Astro</title>
+  </head>
+  <body class="container mx-auto">
+    <Header />
+    <States />
+    <div
+      id="folletos"
+      class="my-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+    >
+    </div>
+
+    <script is:inline>
+      let selectElement = document.querySelector("#states");
+      let folletosElement = document.querySelector("#folletos");
+      const c4URL = "https://folletos.carrefour.com.ar/";
+
+      selectElement.addEventListener("change", async (e) => {
+        let state = e.target.value;
+        let card = "";
+
+        try {
+          const res = await fetch(`/api/folletos.json`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const folletos = await res.json();
+          // console.log(folletos);
+          const stateFolletos = folletos[state];
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const validFolletos = stateFolletos.filter((folleto) => {
+            const fromDate = new Date(folleto.from);
+            const toDate = new Date(folleto.to);
+            return fromDate <= today && toDate >= today;
+          });
+          // console.log(stateFolletos);
+          // folletosElement.innerText = JSON.stringify(stateFolletos, null, 2);
+
+          for (const folleto of validFolletos) {
+            const { from, to, title, thumb, link } = folleto;
+            const fromDate = new Date(from);
+            const toDate = new Date(to);
+            const options = { day: "numeric", month: "short" };
+            const fromDateString = fromDate.toLocaleDateString(
+              "es-AR",
+              options,
+            );
+            const toDateString = toDate.toLocaleDateString("es-AR", options);
+            card += `
+						<div class="max-w-xs mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+							<div class="px-4 py-2">
+								<h2 class="text-gray-900 font-bold text-3xl text-center">${title}</h2>
+							</div>
+							<picture>
+								<source media="(min-width: 650px)" srcset="${c4URL}${thumb}">
+								<source media="(min-width: 465px)" srcset="${c4URL}${thumb}">
+								<img class="h-56 w-full object-cover mt-2" src="${c4URL}${thumb}" alt="${title}">
+							</picture>
+							<div class="flex items-center justify-between px-4 py-2 bg-gray-900">
+								<h3 class="text-gray-200 font-bold text-sm">Válido del ${fromDateString} al ${toDateString}</h3>
+								<a href="${c4URL}${link}#DisablePreview=true" target="_blank" class="px-2 py-1 bg-blue-500 text-white text-xs font-bold rounded hover:bg-blue-400 dialog-link">Ver</a>
+			        </div>
+						</div>
+						`;
+            folletosElement.innerHTML = card;
+          }
+
+          card = "";
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    </script>
+  </body>
+</html>
