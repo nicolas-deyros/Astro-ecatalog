@@ -1,47 +1,35 @@
-# Astro Starter Kit: Minimal
+# Astro Carrefour eCatalogs Project
 
-```sh
-npm create astro@latest -- --template minimal
+This project is a modern, performant web application built using [Astro](https://astro.build/), a front-end framework for building faster, optimized websites with less client-side JavaScript. The application fetches and displays eCatalogs data based on the selected state.
+
+## Technologies Used
+
+- [Astro](https://astro.build/): A front-end framework for building fast, optimized websites.
+- [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for rapidly building custom user interfaces.
+- [Node.js](https://nodejs.org/): A JavaScript runtime for server-side execution.
+
+## Project Structure
+
+- `index.astro`: This is the main entry point of the project. It includes a `Header` component and a `States` component. It also contains a script that fetches the eCatalog data when the state changes and displays the valid eCatalogs in a grid.
+
+- `components/Header.astro`: This component displays the header of the website.
+
+- `components/States.astro`: This component displays a dropdown list of states. When a state is selected, it triggers a change event that is handled in the `index.astro` file.
+
+## How It Works
+
+When a state is selected from the dropdown list, the script in the `index.astro` file fetches the eCatalogs data from the `/api/ecatalogs.json` endpoint. It then filters the eCatalogs for the selected state to get the eCatalogs that are valid for the current date. The valid eCatalogs are displayed in a grid.
+
+Each eCatalog is displayed in a card that includes the title of the eCatalog and an image. The image is displayed using the `<picture>` element to provide different images for different screen sizes.
+
+## Running the Project
+
+To run the project, you need to have Node.js and npm installed on your machine. Then, you can run the following commands:
+
+```bash
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
