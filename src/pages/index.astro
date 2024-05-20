@@ -16,7 +16,7 @@ import States from "../components/States.astro";
     <States />
     <div
       id="ecatalogs"
-      class="my-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
+      class="my-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"
     >
     </div>
 
@@ -41,35 +41,35 @@ import States from "../components/States.astro";
           const stateecatalogs = ecatalogs[state];
           const today = new Date();
           today.setHours(0, 0, 0, 0);
-          const validecatalogs = stateecatalogs.filter((folleto) => {
-            const fromDate = new Date(folleto.from);
-            const toDate = new Date(folleto.to);
+          const validecatalogs = stateecatalogs.filter((ecatalog) => {
+            const fromDate = new Date(ecatalog.from);
+            const toDate = new Date(ecatalog.to);
             return fromDate <= today && toDate >= today;
           });
 
-          for (const folleto of validecatalogs) {
-            const { from, to, title, thumb, link } = folleto;
+          for (const ecatalog of validecatalogs) {
+            const { from, to, title, thumb, link } = ecatalog;
             const fromDate = new Date(from);
             const toDate = new Date(to);
-            const options = { day: "numeric", month: "long" };
+            const options = { day: "numeric", month: "numeric" };
             let fromDateString = fromDate.toLocaleDateString("es-AR", options);
             let toDateString = toDate.toLocaleDateString("es-AR", options);
 
             card += `
-						<div class="max-w-xs mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-							<div class="px-4 py-2">
-								<h2 class="text-gray-900 font-bold text-3xl text-center">${title}</h2>
-							</div>
-							<picture>
-								<source media="(min-width: 650px)" srcset="${c4URL}${thumb}">
-								<source media="(min-width: 465px)" srcset="${c4URL}${thumb}">
-								<img class="h-56 w-full object-cover mt-2" src="${c4URL}${thumb}" alt="${title}">
-							</picture>
-							<div class="flex items-center justify-between px-4 py-2 text-gray-900 focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-								<h3 class="text-gray-200 font-bold text-sm">Válido del ${fromDateString} al ${toDateString}</h3>
-								<a href="${c4URL}${link}#DisablePreview=true" target="_blank" class="px-2 py-1 bg-blue-500 text-white text-xs font-bold rounded hover:bg-blue-400 dialog-link">Ver</a>
-			        </div>
-						</div>
+            <div class="max-w-xs mx-auto bg-white shadow-lg rounded-lg overflow-hidden flex flex-col justify-between">
+              <div class="px-4 py-2">
+                <h2 class="text-gray-900 font-bold text-xl text-center" style="min-height: 60px;">${title}</h2>
+              </div>
+              <picture>
+                  <source media="(min-width: 650px)" srcset="${c4URL}${thumb}">
+                  <source media="(min-width: 465px)" srcset="${c4URL}${thumb}">
+                  <img class="object-cover mx-auto" src="${c4URL}${thumb}" alt="${title}">
+              </picture>
+              <div class="flex gap-2 items-center justify-between px-4 py-2 text-gray-900 focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <h3 class="text-gray-200 font-bold text-sm">Válido del ${fromDateString} al ${toDateString}</h3>
+                <a href="${c4URL}${link}#DisablePreview=true" target="_blank" class="px-2 py-1 bg-blue-500 text-white text-xs font-bold rounded hover:bg-blue-400 dialog-link">Ver</a>
+              </div>
+            </div>
 						`;
             ecatalogsElement.innerHTML = card;
           }
