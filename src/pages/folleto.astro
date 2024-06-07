@@ -1,0 +1,37 @@
+---
+import Header from "../components/Header.astro";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content="{Astro.generator}" />
+    <title>Astro</title>
+  </head>
+  <body class="container mx-auto">
+    <Header />
+
+    <div class="my-2 mx-auto flex flex-col">
+      <a
+        href="/"
+        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-1/4 mx-auto my-3 inline-block text-center font-bold"
+        role="button"
+        aria-pressed="false"
+      >
+        Seleccione otro folleto
+      </a>
+      <iframe id="iframe" class="w-full h-screen rounded-md"></iframe>
+    </div>
+  </body>
+  <script>
+    window.onload = function () {
+      let queryString = window.location.search.substring(1);
+      queryString = queryString.replace(".", "");
+      console.log(queryString);
+      const iframe = document.getElementById("iframe") as HTMLIFrameElement;
+      iframe.src = `https://folletos.carrefour.com.ar/${queryString}`;
+    };
+  </script>
+</html>
